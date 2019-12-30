@@ -8,10 +8,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
         uses: actions/checkout@v1
        
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com
+          scope: "@wanteddev"
+
       - name: Cache node modules      # node modules 캐싱
         uses: actions/cache@v1
         with:
@@ -24,7 +36,7 @@ jobs:
       - name: Install Dependencies    # 의존 파일 설치
         run: npm install
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}} # Github Package 설치 인증
+          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}} # Github Package 설치 인증
 
       - name: Build                   # React Build
         run: npm run build
