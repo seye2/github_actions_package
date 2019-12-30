@@ -74,16 +74,6 @@ jobs:
             --recursive \
             --region ap-northeast-2 \
             build s3://github-actions-dh/develop # develop branch 디렉토리로 배포
-                
-      - name: Slack Message
-        uses: ./node_modules/@seye2/github_package
-        with:
-          ACTION_NAME: Send Slack Message
-          JOB: ${{ toJson(job) }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
-
     if: contains(github.ref, 'develop')  # github branch가 develop일 때만 develop_to_dev를 실행한다.
 
   deploy_to_prod:
@@ -103,15 +93,5 @@ jobs:
           aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            build s3://github-actions-dh/master # develop branch 디렉토리로 배포
-
-      - name: Slack Message
-        uses: ./node_modules/@seye2/github_package
-        with:
-          ACTION_NAME: Send Slack Message
-          JOB: ${{ toJson(job) }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
-          
+            build s3://github-actions-dh/master # develop branch 디렉토리로 배포          
     if: contains(github.ref, 'master')  # github branch가 master일 때만 develop_to_prod를 실행한다.
