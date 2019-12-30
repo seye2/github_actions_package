@@ -24,7 +24,7 @@ jobs:
       - name: Install Dependencies    # 의존 파일 설치
         run: npm install
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}} # Github Package 설치 인증
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}} # Github Package 설치 인증
 
       - name: Build                   # React Build
         run: npm run build
