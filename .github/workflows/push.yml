@@ -47,7 +47,15 @@ jobs:
           ACTION_NAME: Send Slack Message
           JOB: ${{ toJson(job) }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          actor: $ACTOR
+          server: $SERVER
+          text: "배포시작"
+          github_context: $GITHUB_CONTEXT
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
+          ACTOR: ${{ github.actor }}
+          SERVER: ${ server }
+          GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
 
       - name: Archive production artifacts   # upload file
