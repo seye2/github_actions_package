@@ -44,6 +44,7 @@ jobs:
           ACTOR: ${{ github.actor }}
           REPOSITORY: ${{ github.repository }}
           GITHUB_CONTEXT: ${{ toJson(github.event.commits[github.event.commits.length-1]) }}
+          
       - name: Install Dependencies    # 의존 파일 설치
         run: npm install
         env:
