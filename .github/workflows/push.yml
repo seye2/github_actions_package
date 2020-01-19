@@ -33,6 +33,18 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
 
+      - name: Set Environment Variable
+        run: |
+          echo ::set-env name=HASH::$(echo ${GITHUB_SHA} | cut -c1-8)
+          echo ::set-env name=DATE::$(date +%Y%m%d%H%M%S)
+          echo ::set-env name=SERVER::$server_type
+          echo ::set-env name=AUTHOR::$ACTOR
+          echo ::set-env name=context::$GITHUB_CONTEXT
+        env:
+          ACTOR: ${{ github.actor }}
+          REPOSITORY: ${{ github.repository }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+
       - name: Install Dependencies    # 의존 파일 설치
         run: npm install
         env:
@@ -47,9 +59,9 @@ jobs:
           ACTION_NAME: Send Slack Message
           JOB: ${{ toJson(job) }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          text: "배포시작"
+          TEXT: "배포시작"
           ACTOR: ${{ github.actor }}
-          SERVER: ${ server }
+          SERVER: $server
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
           
