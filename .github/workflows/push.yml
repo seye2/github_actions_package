@@ -40,6 +40,7 @@ jobs:
           echo ::set-env name=SERVER::$server_type
           echo ::set-env name=AUTHOR::$ACTOR
           echo ::set-env name=context::$GITHUB_CONTEXT
+          echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
         env:
           ACTOR: ${{ github.actor }}
           REPOSITORY: ${{ github.repository }}
